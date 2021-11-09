@@ -18,6 +18,7 @@ namespace Workshop.APIsRestful.Web.Controllers
             _service = service;
         }
 
+        //Metodo GET amplo
         [HttpGet]
         public async Task<ActionResult> Get()
         {
