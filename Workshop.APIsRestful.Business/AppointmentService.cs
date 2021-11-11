@@ -11,10 +11,12 @@ namespace Workshop.APIsRestful.Business
     public class AppointmentService : IAppointmentService
     {
         DatabaseRepository<Appointment> _repository;
+        DatabaseRepository<Employee> _employeeRepository;
 
-        public AppointmentService(DatabaseRepository<Appointment> repository)
+        public AppointmentService(DatabaseRepository<Appointment> repository, DatabaseRepository<Employee> employeeRepository)
         {
             _repository = repository;
+            _employeeRepository = employeeRepository;
         }
 
         public async Task<List<Appointment>> GetAsync()
@@ -27,8 +29,22 @@ namespace Workshop.APIsRestful.Business
             return await _repository.GetAsync(id);
         }
 
-        public async Task<Appointment> Insert(Appointment model)
+        public async Task<Appointment> CreateAsync(Appointment model)
         {
+            return await _repository.CreateAsync(model);
+        }
+
+        public async Task<Appointment> CreateAsync(Guid employeeId)
+        {
+            Employee response = await _employeeRepository.GetAsync(employeeId);
+            if (response == null)
+                throw new ArgumentException("Id do funcionário não encontrado.");
+
+            Appointment model= new Appointment() {
+                EmployeeId = employeeId,
+                Employee = response
+            };
+
             return await _repository.CreateAsync(model);
         }
 

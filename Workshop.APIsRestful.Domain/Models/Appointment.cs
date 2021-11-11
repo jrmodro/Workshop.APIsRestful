@@ -4,8 +4,8 @@ namespace Workshop.APIsRestful.Domain.Models
 {
     public class Appointment : BaseClass
     {
-        public DateTime CreateDate { get; set; }
         public Guid EmployeeId { get; set; }
+        public DateTime CreateDate { get; set; } = DateTime.Now;
         public Employee Employee { get; set; }
     }
 }
